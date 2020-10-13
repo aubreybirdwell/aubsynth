@@ -9,7 +9,7 @@ OBJ := $(SRC:%.c=%.o)
 	$(CC) $(CFLAGS) -c $<
 
 $(PROGRAM) : $(OBJ)
-	$(CC) $(CFLAGS) -o $(PROGRAM) $(OBJ)
+	$(CC) $(CFLAGS) -o $(PROGRAM) $(OBJ) -lm
 
 clean :
 	$(RM) $(PROGRAM) $(OBJ)
