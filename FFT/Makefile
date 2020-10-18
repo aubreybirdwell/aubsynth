@@ -1,7 +1,7 @@
 CC := gcc
 CFLAGS := -W -Wall -Wpedantic
 
-PROGRAM := FFT_ECM
+PROGRAM := RunFFT
 SRC := cfft.c rfft.c main_fft.c	
 OBJ := $(SRC:%.c=%.o)
 

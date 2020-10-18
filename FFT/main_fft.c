@@ -20,15 +20,20 @@ int main() {
   for ( n = 0 ; n < L ; n++ )
     z[n] = y[n] ;
   rfft( z, L/2, 0 ) ;
-  printf( "%4s%9s%10s%10s%10s\n",
-	  "n ", "x(n)", "y(2n)", "y(2n+1)", "z(n)" ) ;
-  for ( n = 0 ; n < L ; n++ ) {
+
+  printf( "%4s%9s%10s%10s%10s\n", "n ", "x(n)", "y(2n)", "y(2n+1)", "z(n)" ) ;
+
+  for ( n = 0 ; n < L ; n++ )
+    {
     if ( n < L/2 )
-      printf( "[%2d] %9f %9f %9f %9f\n",
-	      n, x[n], y[n<<1], y[(n<<1)+1], z[n] ) ;
+      {
+      printf( "[%2d] %9f %9f %9f %9f\n", n, x[n], y[n<<1], y[(n<<1)+1], z[n] );
+      }
     else
-      printf( "[%2d] %9f                     %9f\n",
-	      n, x[n], z[n] ) ;
-  }
+      {
+      printf( "[%2d] %9f                     %9f\n", n, x[n], z[n]);
+      }
+    }
+
   return 0;
 }
