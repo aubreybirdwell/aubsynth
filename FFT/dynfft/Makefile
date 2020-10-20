@@ -9,8 +9,10 @@ OBJ := $(SRC:%.c=%.o)
 .c.o :
 	$(CC) $(CFLAGS) -c $<
 
+
 $(PROGRAM) : $(OBJ)
 	$(CC) $(CFLAGS) -g3 -DDEBUG -o $(PROGRAM) $(OBJ) -lm
+
 
 
 clean :

@@ -11,11 +11,11 @@ int main() {
   float x[L], y[L], z[L] ;
   int n ;
 
-  PI = 4.*atan(1.) ;
-  TWOPI = 8.*atan(1.) ;
+  PI = 4.*atanf(1.) ;
+  TWOPI = 8.*atanf(1.) ;
 
   for ( n = 0 ; n < L ; n++ )
-    x[n] = y[n] = 1. + cos( 8*n*TWOPI/L ) + cos( 3*n*TWOPI/L ) ;
+    x[n] = y[n] = 1. + cosf( 8*n*TWOPI/L ) + cosf( 3*n*TWOPI/L ) ;
   rfft( y, L/2, 1 ) ;
   for ( n = 0 ; n < L ; n++ )
     z[n] = y[n] ;
