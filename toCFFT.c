@@ -1,4 +1,5 @@
-/* combine two buffers into a stereo buffer
+/* attempt at sending length 16 sections of a buffer to the 
+ * fft... probably not correct...
  * Programmer: Aubrey Birdwell
  * When: fall 2020
  * 

@@ -14,19 +14,6 @@
 #define WIDTH 1200
 #define HEIGHT 600
 
-int scale_width(int n)
-{
-  //fix this code
-  n = n / WIDTH; 
-  return n;
-}
-
-int scale_height(int n)
-{
-  //fix this code
-  n = n / HEIGHT;
-  return n;
-}
 
 void sdl_draw(SDL_Window *window, SDL_Surface *surface, int *p)
 {
@@ -109,7 +96,9 @@ void display_wave(float *data,
     //printf("The matrix elements are:\n");
     for (int i = 0; i < WIDTH; i++) {
       for (int j = 0; j < HEIGHT; j++) {
-  		
+
+	//still not satisfactory ...
+	//needs a more complicated algorithm...
 	if(*(scaled+i) < j)	  	  
 	  *(arr + i*HEIGHT + j) = 1;
 	else
