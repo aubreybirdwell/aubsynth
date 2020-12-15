@@ -5,13 +5,13 @@ extern void cfft(float *x, int  NC, int forward) ;
 extern void rfft(float *x, int  N, int forward) ;
 
 
-extern float *toFFT(float *data,		
+extern float *toCFFT(float *data,		
 		    int window,
 		    double duration,
 		    int srate) ;
 
 
-extern float *fromFFT(float *data,		
+extern float *toRFFT(float *data,		
 		      int window,
 		      double duration,
 		      int srate) ;

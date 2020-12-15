@@ -11,8 +11,8 @@
 #include "aubsynth.h"
 
 
-#define WIDTH 400
-#define HEIGHT 100
+#define WIDTH 1200
+#define HEIGHT 600
 
 int scale_width(int n)
 {
@@ -28,29 +28,22 @@ int scale_height(int n)
   return n;
 }
 
-void sdl_draw(SDL_Window *window, SDL_Surface *surface, float *p, int len)
+void sdl_draw(SDL_Window *window, SDL_Surface *surface, int *p)
 {
-  len = scale_width(len);
-  //printf("increments are %d", len); 
-  int scaled;
   
   for(int x = 0; x < WIDTH; x++)
     {
       for(int y = 0; y < HEIGHT; y++)
 	{
 
-	  //not scaled correctly. Needs to be centered as well.
-	  
-	  printf("%f", *(p + (len*x)) * HEIGHT);
-	  scaled = *(p + (len*x)) * HEIGHT;
-	  
-	  if(scaled < y)
-	    ((Uint32*)surface->pixels)[(y*surface->w) + x] = SDL_MapRGB( surface->format, 0.0, 0.0, 255.0 );
-	  else
-	    {
-	      ((Uint32*)surface->pixels)[(y*surface->w) + x] = 0;
-	    }
-	}      
+	  //if(scaled < y)
+	  int n = *(p+x*HEIGHT+y);
+	  //printf("%d", n);
+
+	  ((Uint32*)surface->pixels)[(y*surface->w) + x] = (n > 0)? 0 :
+	  SDL_MapRGB( surface->format, 256.0, 256.0, 256.0);
+	}
+      SDL_UpdateWindowSurface(window);
     }  
 }
 
@@ -60,6 +53,7 @@ void display_wave(float *data,
 {
   
   int length = duration * srate;
+  int inc;
   float *p = data;
   
   /* SDL SEtup */
@@ -79,34 +73,56 @@ void display_wave(float *data,
 			    HEIGHT,
 			    SDL_WINDOW_OPENGL
 			    );
-  
+
   //should allocate the size of my sdl window...
-  /* int row = WIDTH; */
-  /* int col = HEIGHT; */
   
-  /* int *arr = (int *)malloc(row * col * sizeof(int));  */
-  /* //int i, j; */
-  /* int *p = arr; */
+  //increment to advance in the buffer
+  inc = (int)(length / WIDTH);
+  //mid point of window
+  int mid = HEIGHT/2;
+  //new buffer scaled to window
+  int *scaled = (int*)malloc(WIDTH * sizeof(int));
+  for(int i = 0; i<WIDTH; i++)
+    {      
+      if(*(p + i*inc) > 0)
+	{
+	  *(scaled + i) = ((*(p + i*inc) * mid + mid));
+	  //*(scaled + i) = *(scaled + i)%HEIGHT;
+	}
+      else
+	{
+	  *(scaled + i) = (mid - (*(p + i*inc) * mid));
+	  //*(scaled + i) = *(scaled + i)%HEIGHT;
+	}
+    }
   
-  /*   if ( arr == NULL ) { */
-  /*     printf("Error! Memory not allocated."); */
-  /*     exit(0); */
-  /*   } */
+  int *arr = (int *)malloc(HEIGHT * WIDTH * sizeof(int));
+  //int i, j;
+  //int *p = arr;
   
-  
-  
-  
-  /* printf("The matrix elements are:\n"); */
-  /* for (i = 0; i < row; i++) { */
-  /*   for (j = 0; j < col; j++) { */
-  /* 	printf("%d ", *(arr + i*col + j));  */
-  /*   } */
-  /*   printf("\n"); */
-  /* } */
+    if ( arr == NULL ) {
+      printf("Error! Memory not allocated.");
+      exit(0);
+    }
+
+    
+    //printf("The matrix elements are:\n");
+    for (int i = 0; i < WIDTH; i++) {
+      for (int j = 0; j < HEIGHT; j++) {
+  		
+	if(*(scaled+i) < j)	  	  
+	  *(arr + i*HEIGHT + j) = 1;
+	else
+	  *(arr + i*HEIGHT + j) = 0;
+
+	//printf("%d", *(arr + i*HEIGHT +j));
+      }
+      //printf("\n");
+    }
   
   SDL_Surface* surface = SDL_GetWindowSurface(window);
   
-  sdl_draw(window, surface, p, length); //draw points
+  sdl_draw(window, surface, arr); //draw points
   
   SDL_Event event;
   while(1)
@@ -119,11 +135,12 @@ void display_wave(float *data,
 	  break;
 	}
     }
+
   
   SDL_DestroyWindow(window);
   SDL_Quit();
-  
-  //return 0;
+  free(scaled);
+  free(arr);
 }
 
 

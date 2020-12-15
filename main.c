@@ -52,71 +52,60 @@ int main() {
     
   // a fm sound with a trangle for modulation with an eg applied to it
   
-  waveform2 = triangleWave(90.0, mtof((32) , 30), 10, seconds, srate, nchan);
+  waveform2 = triangleWave(90.0, mtof((29) , 30), 10, seconds, srate, nchan);
 
   //waveform2 = sineWave(.5, 0, mtof(32, 10), seconds, srate, nchan);
     
   waveform2 = envelope(timeX, ampY, 11, waveform2, seconds, srate, nchan);
   
-  waveform2 = sineFM(0.7, 0, mtof((32), 20), waveform2, 50, seconds, srate, nchan);
+  waveform = sineFM(0.7, 0, mtof((28), 0), waveform2, 50, seconds, srate, nchan);
+
+  waveform2 = sineFM(0.7, 0, mtof((28), 25), waveform2, 50, seconds, srate, nchan);
   
-  waveform = sineFM(0.7, 0, mtof((32), 0), waveform2, 2.3, seconds, srate, nchan);
+  //waveform = envelope(timeX, ampY, 11, waveform, seconds, srate, nchan);
   
-  waveform = envelope(timeX, ampY, 11, waveform, seconds, srate, nchan);
+  //waveform = ampMod(waveform, waveform2, 90, seconds, srate, nchan);
   
-  waveform = ampMod(waveform, waveform2, 90, seconds, srate, nchan);
+  //waveform = addBuffers(waveform, waveform2, seconds, srate, nchan);
   
-  waveform = addBuffers(waveform, waveform2, seconds, srate, nchan);
-  
-  waveform = envelope(timeX, ampY, 11, waveform, seconds, srate, nchan);
+  //waveform = envelope(timeX, ampY, 11, waveform, seconds, srate, nchan);
   
   waveform = transformDecibels(waveform, samples, 78);
 
   waveform2 = transformDecibels(waveform2, samples, 78);
 
-  //waveform = movingAverage(waveform, seconds, srate, nchan);
-  
-  //waveform = averageBuffers(waveform, waveform2, seconds, srate, nchan);
-
-  waveform = toFFT(waveform, 16, seconds, srate);
-
-  waveform = fromFFT(waveform, 16, seconds, srate);
-  
-  
-  /* waveform = sineWave(0.5, 0, mtof((45+i), 10), seconds, srate, nchan); */
-  /* waveform2 = sineWave(0.5, 0, mtof((45+i), 35), seconds, srate, nchan); */
-  /* waveform = addBuffers(waveform, waveform2, seconds, srate, nchan);         */
-  /* waveform = envelope(timeX, ampY, 11, waveform, seconds, srate, nchan);     */
-  /* waveform = transformDecibels(waveform, samples, 78); */
-  
-  //waveform2 = envelope(timeX, ampY, 11, waveform2, seconds, srate, nchan);
-  
+  float *w = waveform;
+  display_wave(w, seconds, srate);
   //combined buffers to make into channels
-  //float **comb = malloc(sizeof(float *) * nchan);
+  //simplistic example of sending my toNChan function an array of buffers to interleave
+  float *comb[2];
+  nchan = 2;
   
-  //comb[0] = waveform;
-  //comb[1] = waveform2;
+  comb[0] = waveform;
+  comb[1] = waveform2;
   
-  //waveform = toNChan(comb, seconds, srate, nchan);
+  float *stereoWaveform = toNChan(comb, seconds, srate, nchan);
   
   //float *stereoWaveform;
-  
+  //alternate toStereo function
   //stereoWaveform = toStereo(waveform, waveform2, seconds, srate, 2);
   
   short *output;
   
-  //output = floatInt(stereoWaveform, seconds, srate, 1);
-  output = floatInt(waveform, seconds, srate, 1);
-  
-  writeWaveFile(fileName, output, seconds, srate, 1);
+  output = floatInt(stereoWaveform, seconds, srate, 2);
+  //output = floatInt(waveform2, seconds, srate, 1);
+
+  writeWaveFile(fileName, output, seconds, srate, 2);
+  //writeWaveFile(fileName, output, seconds, srate, 1);
   
   free(output);
-  //free(stereoWaveform);
+  free(stereoWaveform);
   
   //}
 
   free(waveform);
-  //free(waveform2);
+  free(waveform2);
+  //free(stereoWaveform);
   
   //free(output);
   

@@ -45,7 +45,9 @@ float *toNChan(float **data,
 
   //remember to free the buffers
 
-  free(data);
-  
+  //will this free both buffers?
+  //free(data);
+  //free(data);
+
   return ptrCombined;
 }

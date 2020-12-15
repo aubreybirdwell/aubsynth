@@ -31,7 +31,7 @@ float *toStereo(float *data,
     exit(0);
   }
   
-  for ( int i = 0; i < samples; i++) {
+  for ( int i = 0; i < samples; i+=2) {
 
     //interleave buffers
     *pS++ = *d1++;
@@ -39,8 +39,8 @@ float *toStereo(float *data,
 
   }
 
-  free(data);
-  free(data2);
+  //free(data);
+  //free(data2);
   
   return ptrStereo;
 }
