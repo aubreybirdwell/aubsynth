@@ -1,0 +1,21 @@
+#+OPTIONS: toc:nil 
+#+NAME: Aubrey Birdwell
+#+EMAIL: aubrey.birdwell@gmail.com
+
+
+| Awards and Honors:                  | description:                       | where:                  | when: |
+|-------------------------------------+------------------------------------+-------------------------+-------|
+| Washinton NASA Space grant          | awarded academic scholarship       | Seattle Central College |  2016 |
+| City of Seattle public art bootcamp | chosen for city funded opportunity | Seattle, WA             |  2018 |
+|                                     |                                    |                         |       |
+
+| experience:                    | description:                              | where:                  |     when: |
+|--------------------------------+-------------------------------------------+-------------------------+-----------|
+|                                |                                           |                         |           |
+|                                |                                           |                         |           |
+|                                |                                           |                         |           |
+| Robotics club president        | Initiated SCC robotics club               | Seattle Central College |      2016 |
+| Tenure Review Board            | Student observer for faculty              | ""                      | 2015-2016 |
+| PTK Communications Coordinator | Elected Student Government                | ""                      |      2016 |
+| Physics Lab technician         | Repair, maintainance, setup lab equipment | ""                      |      2016 |
+

@@ -15,6 +15,7 @@ void bitreverse(float x[], int N) {
   int i, j, m ;
   for ( i = j = 0 ; i < N ; i += 2, j += m ) {
 
+    //testing debug print
     //printf("bit rev i = %d, j = %d\n", i, j); 
     if ( j > i ) {
       rtemp = x[j] ; itemp = x[j+1] ; /* complex exchange */
@@ -76,15 +77,21 @@ void cfft(float x[], int  NC, int  forward) {
       wi = wi*wpr + rtemp*wpi + wi ;
     }
   }
+  
   /*
    * scale output
    */
+  
   scale = forward ? 1./ND : 2. ;
   for ( i = 0 ; i < ND ; i++ )
     x[i] *= scale ;
-  { register float *xi=x, *xe=x+ND ;
-    while ( xi < xe )
-      *xi++ *= scale ;
-  }
+
+  //could be more readable but basically this skews the
+  //output so I am commenting it out
+  //not sure what this code does but it's not working. 
+  /* { register float *xi=x, *xe=x+ND ; */
+  /*   while ( xi < xe ) */
+  /*     *xi++ *= scale ; */
+  /* } */
   
 }

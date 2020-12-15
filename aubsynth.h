@@ -1,10 +1,59 @@
 //function to create a riff header and write a wave file to the current directory
 
+extern void cfft(float *x, int  NC, int forward) ;
+
+extern void rfft(float *x, int  N, int forward) ;
+
+
+extern float *toFFT(float *data,		
+		    int window,
+		    double duration,
+		    int srate) ;
+
+
+extern float *fromFFT(float *data,		
+		      int window,
+		      double duration,
+		      int srate) ;
+
+
+extern float *toNChan(float **data,		
+		      double duration,
+		      int srate,
+		      int nchan) ;
+
+
+extern float *toStereo(float *data,
+		       float *data2,
+		       double duration,
+		       int srate,
+		       int nchan) ;
+
+
+extern float *averageBuffers(float *data,
+			     float *data2,
+			     double duration,
+			     int srate,
+			     int nchan) ;
+
+
+extern float *movingAverage(float *data,
+			    double duration,
+			    int srate,
+			    int nchan) ; 
+
+
+extern void display_wave(float *data,
+			 double duration,
+			 int srate) ;  
+
+
 extern void writeWaveFile( char *fileName,
 			   short *data,
 			   double duration,
 			   int srate,
 			   short nchan) ;
+
 
 extern void writeBin(char *fileName, 
 		     short *data, 
@@ -12,7 +61,9 @@ extern void writeBin(char *fileName,
 		     int srate, 
 		     short nchan) ;
 
+
 //function to produce note freqency of midi note; takes args midi_note and tune_in_cents
+
 
 extern float mtof(int midi_note, int tune_in_cents) ;
 

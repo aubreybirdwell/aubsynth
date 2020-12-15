@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 #include "fft.h"
 
@@ -18,12 +17,9 @@ extern float PI ;
  * Permission. 
  */
 
-void rfft(float *x, int  N, int forward ) {
+void rfft(float x[], int  N, int forward ) {
 
   //float PI = 4.*atan(1.) ;
-
-  float *px;
-  px = x;
 
   float c1, c2, h1r, h1i, h2r, h2i, wr, wi, wpr, wpi, temp, theta ;
   float xr, xi ;
@@ -35,14 +31,14 @@ void rfft(float *x, int  N, int forward ) {
   if ( forward == 1 ) {
     c2 = -0.5 ;
     cfft( x, N, forward ) ;
-    xr = *px;
-    xi = *(px+1);
+    xr = x[0] ;
+    xi = x[1] ;
   } else {
     c2 = 0.5 ;
     theta = -theta ;
-    xr = *(px+1);
+    xr = x[1] ;
     xi = 0. ;
-    *(px+1) = 0. ;
+    x[1] = 0. ;
   }
   wpr = -2.*pow( sinf( 0.5*theta ), 2. ) ;
   wpi = sinf( theta ) ;
@@ -53,29 +49,29 @@ void rfft(float *x, int  N, int forward ) {
     i3 = N2p1 - i2 ;
     i4 = i3 + 1 ;
     if ( i == 0 ) {
-      h1r =  c1*(*(px+i1) + xr ) ;
-      h1i =  c1*(*(px+i2) - xi ) ;
-      h2r = -c2*(*(px+i2) + xi ) ;
-      h2i =  c2*(*(px+i1) - xr ) ;
-      *(px+i1) = h1r + wr*h2r - wi*h2i ;
-      *(px+i2) = h1i + wr*h2i + wi*h2r ;
+      h1r =  c1*(x[i1] + xr ) ;
+      h1i =  c1*(x[i2] - xi ) ;
+      h2r = -c2*(x[i2] + xi ) ;
+      h2i =  c2*(x[i1] - xr ) ;
+      x[i1] = h1r + wr*h2r - wi*h2i ;
+      x[i2] = h1i + wr*h2i + wi*h2r ;
       xr =  h1r - wr*h2r + wi*h2i ;
       xi = -h1i + wr*h2i + wi*h2r ; 
     } else {
-      h1r =  c1*(*(px+i1) + *(px+i3) ) ;
-      h1i =  c1*(*(px+i2) - *(px+i4) ) ;
-      h2r = -c2*(*(px+i2) + *(px+i4) ) ;
-      h2i =  c2*(*(px+i1) - *(px+i3) ) ;
-      *(px+i1) = h1r + wr*h2r - wi*h2i ;
-      *(px+i2) = h1i + wr*h2i + wi*h2r ;
-      *(px+i3) = h1r - wr*h2r + wi*h2i ;
-      *(px+i4) = -h1i + wr*h2i + wi*h2r ;
+      h1r =  c1*(x[i1] + x[i3] ) ;
+      h1i =  c1*(x[i2] - x[i4] ) ;
+      h2r = -c2*(x[i2] + x[i4] ) ;
+      h2i =  c2*(x[i1] - x[i3] ) ;
+      x[i1] = h1r + wr*h2r - wi*h2i ;
+      x[i2] = h1i + wr*h2i + wi*h2r ;
+      x[i3] = h1r - wr*h2r + wi*h2i ;
+      x[i4] = -h1i + wr*h2i + wi*h2r ;
     }
     wr = (temp = wr)*wpr - wi*wpi + wr ;
     wi = wi*wpr + temp*wpi + wi ;
   }
-  if ( forward )
-    *(px+1) = xr ;
+  if ( forward == 1 )
+    x[1] = xr ;
   else
-    cfft( px, N, forward) ;
+    cfft( x, N, forward) ;
 }

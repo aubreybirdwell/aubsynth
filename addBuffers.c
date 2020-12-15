@@ -32,6 +32,8 @@ float *addBuffers(float *data,
   for ( int i = 0; i < samples; i++) {
     *pM++ = *d1++ + *d2++;      
   }
-  
+
+  free(data);
+
   return ptrMix;
 }

@@ -20,8 +20,11 @@ float quickDecibels(float *data, int samples)
   
   //grab min and max + and - values
   smax = smin = *data ;
+
   for ( int i = 0 ; i < samples ; i++, pd++ ) {
+
     if ( *pd > smax ) smax = *pd ;
+
     else if ( *pd < smin ) smin = *pd ; // changed to make min negative
   }
 

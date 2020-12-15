@@ -53,6 +53,7 @@ float *transformDecibels(float *data, int samples, float desiredDecibels)
     *out++ = (*pd++ * scale);
   }
 
+  free(data);
   return outdata ;
 }
 
